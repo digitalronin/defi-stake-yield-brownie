@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 // unStakeTokens
-// issueTokens
 // getEthValue
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -28,6 +27,16 @@ contract TokenFarm is Ownable {
     allowedTokens.push(_token);
   }
 
+  function issueTokens() external onlyOwner {
+    for (uint256 i = 0; i < stakers.length; i++) {
+      address user = stakers[i];
+      uint256 rewardValue = getTotalUsdStakedValue(user);
+      // Transfer 1 reward token for every USD of staked value
+      if (rewardValue > 0) {
+        rewardToken.transfer(user, rewardValue);
+      }
+    }
+  }
 
   function setPriceFeedAddress(address _token, address _priceFeed) external onlyOwner {
     tokenPriceFeedMapping[_token] = _priceFeed;

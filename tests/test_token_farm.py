@@ -206,7 +206,33 @@ def test_get_total_usd_staked_value():
     assert(value == (1000 * 2000) + (300 * 5))
 
 
-# TODO test_calculate_user_reward():
+def test_issue_tokens_transfers_dapp_to_user():
+    account, dapp, tf = deployAndApprove()
+
+    # Add some reward funds to the farm
+    dapp.transfer(tf.address, 50_000, {"from": account})
+
+    # Set price to $1/DAPP
+    priceFeed = MockV3Aggregator.deploy(8, 1 * 10**8, {"from": account})
+    tf.setPriceFeedAddress(dapp.address, priceFeed.address, {"from": account})
+
+    # Setup a 2nd account - this will be our staker
+    account2 = get_account(index=1)
+    dapp.transfer(account2.address, 10_000)
+    dapp.approve(tf.address, 100_000, {"from": account2})
+
+    # Stake 1,000 DAPP
+    tf.stakeTokens(1_000, dapp.address, {"from": account2})
+
+    staker_balance = dapp.balanceOf(account2)
+    farm_balance = dapp.balanceOf(tf)
+
+    tf.issueTokens({"from": account})
+
+    # Staked $1,000 so reward is 1000 DAPP
+    assert(dapp.balanceOf(account2) == staker_balance + 1_000)
+    assert(dapp.balanceOf(tf) == farm_balance - 1_000)
+
 # TODO test unstaking transfers tokens to user
 # TODO test unstaking set staking balance to zero
 # TODO test unstaking resets staking balance
@@ -214,4 +240,3 @@ def test_get_total_usd_staked_value():
 # TODO test unstaking reduces unique tokens count
 # TODO test unstaking last token type removes user from stakers array
 # TODO test unstaking does not remove multitoken user from stakers array
-# TODO test issue tokens adds to user token balance
