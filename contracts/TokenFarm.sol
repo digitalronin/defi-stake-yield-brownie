@@ -13,6 +13,7 @@ contract TokenFarm is Ownable {
   address[] public stakers;
   mapping(address => uint256) public uniqueTokensStaked;
   mapping(address => mapping(address => uint256)) public stakingBalance;
+  mapping(address => address) public tokenPriceFeedMapping;
   IERC20 public rewardToken;
 
   constructor(address _rewardTokenAddress) public {
@@ -24,6 +25,11 @@ contract TokenFarm is Ownable {
 
   function addAllowedTokens(address _token) external onlyOwner {
     allowedTokens.push(_token);
+  }
+
+
+  function setPriceFeedAddress(address _token, address _priceFeed) external onlyOwner {
+    tokenPriceFeedMapping[_token] = _priceFeed;
   }
 
   // User functions ---------

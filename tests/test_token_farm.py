@@ -154,6 +154,21 @@ def test_only_owner_can_call_issuetokens():
     with pytest.raises(exceptions.VirtualMachineError):
         tf.issueTokens({"from": non_owner})
 
+def test_only_owner_can_set_price_feed_address():
+    account, dapp, tf = deployAndApprove()
+    non_owner = get_account(index=1)
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.setPriceFeedAddress(dapp.address, dapp.address, {"from": non_owner})
+
+
+def test_set_price_feed_address():
+    account, dapp, tf = deployAndApprove()
+    dummy_address = get_account(index=1).address
+    tf.setPriceFeedAddress(dapp.address, dummy_address, {"from": account})
+    assert(tf.tokenPriceFeedMapping(dapp.address) == dummy_address)
+
+
+# TODO test_get_staked_usd_value():
 # TODO test unstaking transfers tokens to user
 # TODO test unstaking set staking balance to zero
 # TODO test unstaking resets staking balance
@@ -161,3 +176,4 @@ def test_only_owner_can_call_issuetokens():
 # TODO test unstaking reduces unique tokens count
 # TODO test unstaking last token type removes user from stakers array
 # TODO test unstaking does not remove multitoken user from stakers array
+# TODO test get token usd price
