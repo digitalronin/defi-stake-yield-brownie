@@ -6,7 +6,7 @@ import pytest
 def deployAndApprove():
     account = get_account()
     dapp = DappToken.deploy({"from": account})
-    tf = TokenFarm.deploy({"from": account})
+    tf = TokenFarm.deploy(dapp.address, {"from": account})
     tf.addAllowedTokens(dapp.address, {"from": account})
     dapp.approve(tf.address, dapp.totalSupply(), {"from": account})
     return (account, dapp, tf)
@@ -14,8 +14,8 @@ def deployAndApprove():
 
 def test_no_tokens_allowed():
     account = get_account()
-    tf = TokenFarm.deploy({"from": account})
     dapp = DappToken.deploy({"from": account})
+    tf = TokenFarm.deploy(dapp.address, {"from": account})
     assert(not tf.tokenIsAllowed(dapp.address))
 
 
@@ -28,8 +28,8 @@ def test_only_owner_can_add_allowed_tokens():
 
 def test_add_allowed_tokens():
     account = get_account()
-    tf = TokenFarm.deploy({"from": account})
     dapp = DappToken.deploy({"from": account})
+    tf = TokenFarm.deploy(dapp.address, {"from": account})
     tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
     assert(tf.tokenIsAllowed(dapp.address))
 
@@ -42,16 +42,16 @@ def test_cannot_stake_zero_tokens():
 
 def test_cannot_stake_tokens_which_are_not_allowed():
     account = get_account()
-    tf = TokenFarm.deploy({"from": account})
     dapp = DappToken.deploy({"from": account})
+    tf = TokenFarm.deploy(dapp.address, {"from": account})
     with pytest.raises(exceptions.VirtualMachineError):
         tf.stakeTokens(100, dapp.address, {"from": account})
 
 
 def test_cannot_stake_tokens_without_allowance():
     account = get_account()
-    tf = TokenFarm.deploy({"from": account})
     dapp = DappToken.deploy({"from": account})
+    tf = TokenFarm.deploy(dapp.address, {"from": account})
     tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
     with pytest.raises(exceptions.VirtualMachineError):
         tf.stakeTokens(100000, dapp.address, {"from": account})
@@ -67,8 +67,8 @@ def test_cannot_stake_more_than_token_balance():
 
 def test_cannot_stake_more_than_token_allowance():
     account = get_account()
-    tf = TokenFarm.deploy({"from": account})
     dapp = DappToken.deploy({"from": account})
+    tf = TokenFarm.deploy(dapp.address, {"from": account})
     tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
     dapp.approve(tf.address, 100, {"from": account}).wait(1)
     with pytest.raises(exceptions.VirtualMachineError):
@@ -154,3 +154,10 @@ def test_only_owner_can_call_issuetokens():
     with pytest.raises(exceptions.VirtualMachineError):
         tf.issueTokens({"from": non_owner})
 
+# TODO test unstaking transfers tokens to user
+# TODO test unstaking set staking balance to zero
+# TODO test unstaking resets staking balance
+# TODO test unstaking decreases staking balance
+# TODO test unstaking reduces unique tokens count
+# TODO test unstaking last token type removes user from stakers array
+# TODO test unstaking does not remove multitoken user from stakers array

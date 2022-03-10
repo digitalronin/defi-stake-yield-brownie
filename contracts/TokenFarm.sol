@@ -13,6 +13,12 @@ contract TokenFarm is Ownable {
   address[] public stakers;
   mapping(address => uint256) public uniqueTokensStaked;
   mapping(address => mapping(address => uint256)) public stakingBalance;
+  IERC20 public rewardToken;
+
+  constructor(address _rewardTokenAddress) public {
+    rewardToken = IERC20(_rewardTokenAddress);
+  }
+
 
   // Admin functions ---------
 
