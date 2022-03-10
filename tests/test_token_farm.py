@@ -140,7 +140,7 @@ def test_add_to_stakers_array():
     assert(tf.stakers(0) == account.address)
 
 
-def xtest_dont_add_duplicates_to_stakers_array():  # TODO
+def test_dont_add_duplicates_to_stakers_array():  # TODO
     account, dapp, tf = deployAndApprove()
     amount = 1000
     tf.stakeTokens(amount, dapp.address, {"from": account})

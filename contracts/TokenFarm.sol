@@ -45,9 +45,10 @@ contract TokenFarm is Ownable {
     require(_amount > 0, "Amount must be more than zero.");
     require(tokenIsAllowed(_token), "Token is not currently allowed.");
     IERC20(_token).transferFrom(msg.sender, address(this), _amount);
+    uint256 alreadyStaked = uniqueTokensStaked[msg.sender];
     updateUniqueTokensStaked(msg.sender, _token);
     stakingBalance[_token][msg.sender] += _amount;
-    if (uniqueTokensStaked[msg.sender] == 1) {  // First time staking
+    if (alreadyStaked == 0 && uniqueTokensStaked[msg.sender] == 1) {  // First time staking
       stakers.push(msg.sender);
     }
   }
