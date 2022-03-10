@@ -170,7 +170,6 @@ def test_set_price_feed_address():
     assert(tf.tokenPriceFeedMapping(dapp.address) == dummy_address)
 
 
-# TODO test_get_staked_usd_value():
 # This checks that we are calling the price feed contract
 def test_get_token_usd_price():
     account, dapp, tf = deployAndApprove()
@@ -181,6 +180,19 @@ def test_get_token_usd_price():
     assert(price == 2000 * 10**8)
 
 
+def test_get_staked_usd_value():
+    account, dapp, tf = deployAndApprove()
+    priceFeed = MockV3Aggregator.deploy(8, 2000 * 10**8, {"from": account})
+    tf.setPriceFeedAddress(dapp.address, priceFeed.address, {"from": account})
+    tf.stakeTokens(1000, dapp.address, {"from": account})
+    value = tf.getStakedUsdValue(account.address, dapp.address)
+    assert(value == 1000 * 2000)
+
+
+def test_usd_value_of_nonstaked_token():
+    account, dapp, tf = deployAndApprove()
+    assert(0 == tf.getStakedUsdValue(account.address, dapp.address))
+
 # TODO test_calculate_user_reward():
 # TODO test unstaking transfers tokens to user
 # TODO test unstaking set staking balance to zero
@@ -189,4 +201,4 @@ def test_get_token_usd_price():
 # TODO test unstaking reduces unique tokens count
 # TODO test unstaking last token type removes user from stakers array
 # TODO test unstaking does not remove multitoken user from stakers array
-# TODO test get token usd price
+# TODO test issue tokens adds to user token balance

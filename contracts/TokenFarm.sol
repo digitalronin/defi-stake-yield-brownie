@@ -55,6 +55,16 @@ contract TokenFarm is Ownable {
     return false;
   }
 
+
+  function getStakedUsdValue(address _user, address _token) public view returns (uint256) {
+    if (uniqueTokensStaked[_user] <= 0) {
+      return 0;
+    }
+    uint256 stakedBalance = stakingBalance[_token][_user];
+    (uint256 price, uint256 decimals) = getTokenUsdPrice(_token);
+    return stakedBalance * price / 10**decimals;
+  }
+
   function getTokenUsdPrice(address _token) public view returns (uint256, uint256) {
     address priceFeedAddress = tokenPriceFeedMapping[_token];
     AggregatorV3Interface priceFeed = AggregatorV3Interface(priceFeedAddress);
