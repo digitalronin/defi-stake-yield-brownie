@@ -96,3 +96,61 @@ def test_staking_increases_staking_balance():
     tf.stakeTokens(amount, dapp.address, {"from": account})
     tf.stakeTokens(amount, dapp.address, {"from": account})
     assert(tf.stakingBalance(dapp.address, account.address) == amount * 2)
+
+
+def test_staking_updates_unique_tokens_count():
+    account, dapp, tf = deployAndApprove()
+    assert(tf.uniqueTokensStaked(account.address) == 0)
+    tf.stakeTokens(1000, dapp.address, {"from": account})
+    assert(tf.uniqueTokensStaked(account.address) == 1)
+
+
+def test_staking_same_token_twice_does_not_change_unique_tokens_count():
+    account, dapp, tf = deployAndApprove()
+    assert(tf.uniqueTokensStaked(account.address) == 0)
+    tf.stakeTokens(1000, dapp.address, {"from": account})
+    tf.stakeTokens(1000, dapp.address, {"from": account})
+    assert(tf.uniqueTokensStaked(account.address) == 1)
+
+
+def test_staking_different_token_changes_unique_tokens_count():
+    account, dapp, tf = deployAndApprove()
+
+    token2 = DappToken.deploy({"from": account})
+    token2.approve(tf.address, token2.totalSupply(), {"from": account})
+    tf.addAllowedTokens(token2.address, {"from": account})
+
+    tf.stakeTokens(1000, dapp.address, {"from": account})
+    tf.stakeTokens(1000, token2.address, {"from": account})
+    assert(tf.uniqueTokensStaked(account.address) == 2)
+
+
+def test_starts_with_no_stakers():
+    account, dapp, tf = deployAndApprove()
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.stakers(0)
+
+
+def xtest_add_to_stakers_array():  # TODO
+    account, dapp, tf = deployAndApprove()
+    amount = 1000
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(tf.stakers(0) == account.address)
+
+
+def xtest_dont_add_duplicates_to_stakers_array():  # TODO
+    account, dapp, tf = deployAndApprove()
+    amount = 1000
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    # stake twice, but only add to stakers once
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.stakers(1)
+
+
+def test_only_owner_can_call_issuetokens():
+    account, dapp, tf = deployAndApprove()
+    non_owner = get_account(index=1)
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.issueTokens({"from": non_owner})
+

@@ -10,6 +10,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract TokenFarm is Ownable {
   address[] public allowedTokens;
+  address[] public stakers;
+  mapping(address => uint256) public uniqueTokensStaked;
   mapping(address => mapping(address => uint256)) public stakingBalance;
 
   // Admin functions ---------
@@ -24,7 +26,11 @@ contract TokenFarm is Ownable {
     require(_amount > 0, "Amount must be more than zero.");
     require(tokenIsAllowed(_token), "Token is not currently allowed.");
     IERC20(_token).transferFrom(msg.sender, address(this), _amount);
+    updateUniqueTokensStaked(msg.sender, _token);
     stakingBalance[_token][msg.sender] += _amount;
+    if (uniqueTokensStaked[msg.sender] == 1) {  // First time staking
+      stakers.push(msg.sender);
+    }
   }
 
   function tokenIsAllowed(address _token) public view returns (bool) {
@@ -34,5 +40,13 @@ contract TokenFarm is Ownable {
       }
     }
     return false;
+  }
+
+  // Internal functions
+
+  function updateUniqueTokensStaked(address _user, address _token) internal {
+    if (stakingBalance[_token][_user] <= 0) {
+      uniqueTokensStaked[_user] += 1;
+    }
   }
 }
