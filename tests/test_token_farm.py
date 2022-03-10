@@ -57,6 +57,14 @@ def test_cannot_stake_tokens_without_allowance():
         tf.stakeTokens(100000, dapp.address, {"from": account})
 
 
+def test_cannot_stake_more_than_token_balance():
+    account, dapp, tf = deployAndApprove()
+    account2 = get_account(index=1)
+    dapp.transfer(account2, dapp.balanceOf(account), {"from": account})
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.stakeTokens(100000, dapp.address, {"from": account})
+
+
 def test_cannot_stake_more_than_token_allowance():
     account = get_account()
     tf = TokenFarm.deploy({"from": account})
