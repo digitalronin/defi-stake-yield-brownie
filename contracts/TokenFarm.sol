@@ -56,7 +56,9 @@ contract TokenFarm is Ownable {
   }
 
   function getTotalUsdStakedValue(address _user) public view returns (uint256) {
-    require(uniqueTokensStaked[_user] > 0, "No tokens staked!");
+    if (uniqueTokensStaked[_user] <= 0) {
+      return 0;
+    }
     uint256 stakedUsdValue = 0;
     for (uint256 i; i < allowedTokens.length; i++) {
       stakedUsdValue += getStakedUsdValue(_user, allowedTokens[i]);
@@ -65,9 +67,6 @@ contract TokenFarm is Ownable {
   }
 
   function getStakedUsdValue(address _user, address _token) public view returns (uint256) {
-    if (uniqueTokensStaked[_user] <= 0) {
-      return 0;
-    }
     uint256 stakedBalance = stakingBalance[_token][_user];
     (uint256 price, uint256 decimals) = getTokenUsdPrice(_token);
     return stakedBalance * price / 10**decimals;

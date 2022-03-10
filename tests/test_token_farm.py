@@ -156,6 +156,12 @@ def test_only_owner_can_call_issuetokens():
     with pytest.raises(exceptions.VirtualMachineError):
         tf.issueTokens({"from": non_owner})
 
+
+def test_non_stakers_have_zero_usd_value_staked():
+    account, dapp, tf = deployAndApprove()
+    assert(0 == tf.getTotalUsdStakedValue(account))
+
+
 def test_only_owner_can_set_price_feed_address():
     account, dapp, tf = deployAndApprove()
     non_owner = get_account(index=1)
@@ -199,10 +205,6 @@ def test_get_total_usd_staked_value():
     value = tf.getTotalUsdStakedValue(account.address)
     assert(value == (1000 * 2000) + (300 * 5))
 
-
-def test_usd_value_of_nonstaked_token():
-    account, dapp, tf = deployAndApprove()
-    assert(0 == tf.getStakedUsdValue(account.address, dapp.address))
 
 # TODO test_calculate_user_reward():
 # TODO test unstaking transfers tokens to user
