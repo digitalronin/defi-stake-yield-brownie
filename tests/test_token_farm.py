@@ -32,7 +32,7 @@ def test_add_allowed_tokens():
     account = get_account()
     dapp = DappToken.deploy({"from": account})
     tf = TokenFarm.deploy(dapp.address, {"from": account})
-    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    tf.addAllowedTokens(dapp.address, {"from": account})
     assert(tf.tokenIsAllowed(dapp.address))
 
 
@@ -54,7 +54,7 @@ def test_cannot_stake_tokens_without_allowance():
     account = get_account()
     dapp = DappToken.deploy({"from": account})
     tf = TokenFarm.deploy(dapp.address, {"from": account})
-    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    tf.addAllowedTokens(dapp.address, {"from": account})
     with pytest.raises(exceptions.VirtualMachineError):
         tf.stakeTokens(100000, dapp.address, {"from": account})
 
@@ -71,8 +71,8 @@ def test_cannot_stake_more_than_token_allowance():
     account = get_account()
     dapp = DappToken.deploy({"from": account})
     tf = TokenFarm.deploy(dapp.address, {"from": account})
-    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
-    dapp.approve(tf.address, 100, {"from": account}).wait(1)
+    tf.addAllowedTokens(dapp.address, {"from": account})
+    dapp.approve(tf.address, 100, {"from": account})
     with pytest.raises(exceptions.VirtualMachineError):
         tf.stakeTokens(100000, dapp.address, {"from": account})
 
@@ -199,7 +199,7 @@ def test_get_total_usd_staked_value():
     pf2 = MockV3Aggregator.deploy(18, 5 * 10**18, {"from": account})
     tf.setPriceFeedAddress(token2.address, pf2.address, {"from": account})
 
-    tf.stakeTokens(1000, token1.address, {"from": account}).wait(1)
+    tf.stakeTokens(1000, token1.address, {"from": account})
     tf.stakeTokens(300, token2.address, {"from": account})
 
     value = tf.getTotalUsdStakedValue(account.address)
