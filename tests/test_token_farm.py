@@ -85,3 +85,26 @@ def test_staking_transfers_tokens():
     balance = dapp.balanceOf(account)
     tf.stakeTokens(amount, dapp.address, {"from": account})
     assert(dapp.balanceOf(account) == balance - amount)
+
+
+def test_staking_sets_staking_balance():
+    account = get_account()
+    tf = TokenFarm.deploy({"from": account})
+    dapp = DappToken.deploy({"from": account})
+    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    amount = 1000
+    dapp.approve(tf.address, amount, {"from": account}).wait(1)
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(tf.stakingBalance(dapp.address, account.address) == amount)
+
+
+def test_staking_increases_staking_balance():
+    account = get_account()
+    tf = TokenFarm.deploy({"from": account})
+    dapp = DappToken.deploy({"from": account})
+    tf.addAllowedTokens(dapp.address, {"from": account})
+    amount = 1000
+    dapp.approve(tf.address, dapp.totalSupply(), {"from": account})
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(tf.stakingBalance(dapp.address, account.address) == amount * 2)
