@@ -12,15 +12,19 @@ contract TokenFarm is Ownable {
   address[] public allowedTokens;
   mapping(address => mapping(address => uint256)) public stakingBalance;
 
-  function stakeTokens(uint256 _amount, address _token) public {
+  // Admin functions ---------
+
+  function addAllowedTokens(address _token) external onlyOwner {
+    allowedTokens.push(_token);
+  }
+
+  // User functions ---------
+
+  function stakeTokens(uint256 _amount, address _token) external {
     require(_amount > 0, "Amount must be more than zero.");
     require(tokenIsAllowed(_token), "Token is not currently allowed.");
     IERC20(_token).transferFrom(msg.sender, address(this), _amount);
     stakingBalance[_token][msg.sender] += _amount;
-  }
-
-  function addAllowedTokens(address _token) public onlyOwner {
-    allowedTokens.push(_token);
   }
 
   function tokenIsAllowed(address _token) public view returns (bool) {
