@@ -34,6 +34,7 @@ def test_can_stake_tokens():
     tf = TokenFarm.deploy({"from": account})
     dapp = DappToken.deploy({"from": account})
     tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    dapp.approve(tf.address, 100, {"from": account}).wait(1)
     tf.stakeTokens(100, dapp.address, {"from": account})
     # TODO: Assert some stuff when we have more functionality
 
@@ -53,3 +54,34 @@ def test_cannot_stake_tokens_which_are_not_allowed():
     dapp = DappToken.deploy({"from": account})
     with pytest.raises(exceptions.VirtualMachineError):
         tf.stakeTokens(100, dapp.address, {"from": account})
+
+
+def test_cannot_stake_tokens_without_allowance():
+    account = get_account()
+    tf = TokenFarm.deploy({"from": account})
+    dapp = DappToken.deploy({"from": account})
+    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.stakeTokens(100000, dapp.address, {"from": account})
+
+
+def test_cannot_stake_more_than_token_allowance():
+    account = get_account()
+    tf = TokenFarm.deploy({"from": account})
+    dapp = DappToken.deploy({"from": account})
+    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    dapp.approve(tf.address, 100, {"from": account}).wait(1)
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.stakeTokens(100000, dapp.address, {"from": account})
+
+
+def test_staking_transfers_tokens():
+    account = get_account()
+    tf = TokenFarm.deploy({"from": account})
+    dapp = DappToken.deploy({"from": account})
+    tf.addAllowedTokens(dapp.address, {"from": account}).wait(1)
+    amount = 1000
+    dapp.approve(tf.address, amount, {"from": account}).wait(1)
+    balance = dapp.balanceOf(account)
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(dapp.balanceOf(account) == balance - amount)

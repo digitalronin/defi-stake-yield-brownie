@@ -8,6 +8,7 @@ pragma solidity ^0.8.0;
 // getEthValue
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract TokenFarm is Ownable {
   address[] public allowedTokens;
@@ -15,6 +16,7 @@ contract TokenFarm is Ownable {
   function stakeTokens(uint256 _amount, address _token) public {
     require(_amount > 0, "Amount must be more than zero.");
     require(tokenIsAllowed(_token), "Token is not currently allowed.");
+    IERC20(_token).transferFrom(msg.sender, address(this), _amount);
   }
 
   function addAllowedTokens(address _token) public onlyOwner {
