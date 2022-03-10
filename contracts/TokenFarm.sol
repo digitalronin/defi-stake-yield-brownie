@@ -55,6 +55,14 @@ contract TokenFarm is Ownable {
     return false;
   }
 
+  function getTotalUsdStakedValue(address _user) public view returns (uint256) {
+    require(uniqueTokensStaked[_user] > 0, "No tokens staked!");
+    uint256 stakedUsdValue = 0;
+    for (uint256 i; i < allowedTokens.length; i++) {
+      stakedUsdValue += getStakedUsdValue(_user, allowedTokens[i]);
+    }
+    return stakedUsdValue;
+  }
 
   function getStakedUsdValue(address _user, address _token) public view returns (uint256) {
     if (uniqueTokensStaked[_user] <= 0) {

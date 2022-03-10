@@ -180,13 +180,24 @@ def test_get_token_usd_price():
     assert(price == 2000 * 10**8)
 
 
-def test_get_staked_usd_value():
-    account, dapp, tf = deployAndApprove()
-    priceFeed = MockV3Aggregator.deploy(8, 2000 * 10**8, {"from": account})
-    tf.setPriceFeedAddress(dapp.address, priceFeed.address, {"from": account})
-    tf.stakeTokens(1000, dapp.address, {"from": account})
-    value = tf.getStakedUsdValue(account.address, dapp.address)
-    assert(value == 1000 * 2000)
+def test_get_total_usd_staked_value():
+    account, token1, tf = deployAndApprove()
+
+    token2 = DappToken.deploy({"from": account})
+    token2.approve(tf.address, token2.totalSupply(), {"from": account})
+    tf.addAllowedTokens(token2.address, {"from": account})
+
+    pf1 = MockV3Aggregator.deploy(8, 2000 * 10**8, {"from": account})
+    tf.setPriceFeedAddress(token1.address, pf1.address, {"from": account})
+
+    pf2 = MockV3Aggregator.deploy(18, 5 * 10**18, {"from": account})
+    tf.setPriceFeedAddress(token2.address, pf2.address, {"from": account})
+
+    tf.stakeTokens(1000, token1.address, {"from": account}).wait(1)
+    tf.stakeTokens(300, token2.address, {"from": account})
+
+    value = tf.getTotalUsdStakedValue(account.address)
+    assert(value == (1000 * 2000) + (300 * 5))
 
 
 def test_usd_value_of_nonstaked_token():
