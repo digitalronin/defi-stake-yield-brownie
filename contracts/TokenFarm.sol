@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// unStakeTokens
-// getEthValue
-
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
@@ -55,6 +52,17 @@ contract TokenFarm is Ownable {
     }
   }
 
+  function unstakeTokens(address _token) external {
+    uint256 balance = stakingBalance[_token][msg.sender];
+    require(balance > 0, "No tokens to unstake!");
+    IERC20(_token).transfer(msg.sender, balance);
+    stakingBalance[_token][msg.sender] = 0;
+    uniqueTokensStaked[msg.sender] -= 1;
+    if (uniqueTokensStaked[msg.sender] <= 0) {
+      removeFromStakers(msg.sender);
+    }
+  }
+
   function tokenIsAllowed(address _token) public view returns (bool) {
     for(uint256 i=0; i < allowedTokens.length; i++) {
       if (allowedTokens[i] == _token) {
@@ -89,12 +97,24 @@ contract TokenFarm is Ownable {
     return (uint256(price), decimals);
   }
 
+  function numberOfStakers() public view returns (uint256) {
+    return stakers.length;
+  }
 
   // Internal functions
 
   function updateUniqueTokensStaked(address _user, address _token) internal {
     if (stakingBalance[_token][_user] <= 0) {
       uniqueTokensStaked[_user] += 1;
+    }
+  }
+
+  function removeFromStakers(address _user) internal {
+    for(uint256 i = 0; i < stakers.length; i++) {
+      if (stakers[i] == _user) {
+        stakers[i] = stakers[stakers.length - 1];
+        stakers.pop();
+      }
     }
   }
 }

@@ -233,10 +233,59 @@ def test_issue_tokens_transfers_dapp_to_user():
     assert(dapp.balanceOf(account2) == staker_balance + 1_000)
     assert(dapp.balanceOf(tf) == farm_balance - 1_000)
 
-# TODO test unstaking transfers tokens to user
-# TODO test unstaking set staking balance to zero
-# TODO test unstaking resets staking balance
-# TODO test unstaking decreases staking balance
-# TODO test unstaking reduces unique tokens count
-# TODO test unstaking last token type removes user from stakers array
-# TODO test unstaking does not remove multitoken user from stakers array
+
+def test_unstaking_before_staking_raises_error():
+    account, dapp, tf = deployAndApprove()
+    with pytest.raises(exceptions.VirtualMachineError):
+        tf.unstakeTokens(dapp.address, {"from": account})
+
+
+def test_unstaking_transfers_tokens_to_user():
+    account, dapp, tf = deployAndApprove()
+    amount = 1000
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    balance = dapp.balanceOf(account)
+    tf.unstakeTokens(dapp.address, {"from": account})
+    assert(balance + amount == dapp.balanceOf(account))
+
+
+def test_unstaking_resets_staking_balance():
+    account, dapp, tf = deployAndApprove()
+    amount = 1000
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(1000 == tf.stakingBalance(dapp.address, account))
+    tf.unstakeTokens(dapp.address, {"from": account})
+    assert(0 == tf.stakingBalance(dapp.address, account))
+
+
+def test_unstaking_reduces_unique_tokens_count():
+    account, dapp, tf = deployAndApprove()
+    amount = 1000
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(tf.uniqueTokensStaked(account.address) == 1)
+    tf.unstakeTokens(dapp.address, {"from": account})
+    assert(tf.uniqueTokensStaked(account.address) == 0)
+
+
+def test_unstaking_last_token_type_removes_user_from_stakers_array():
+    account, dapp, tf = deployAndApprove()
+    amount = 1000
+    tf.stakeTokens(amount, dapp.address, {"from": account})
+    assert(tf.numberOfStakers() == 1)
+    tf.unstakeTokens(dapp.address, {"from": account})
+    assert(tf.numberOfStakers() == 0)
+
+
+def test_unstaking_does_not_remove_multitoken_user_from_stakers_array():
+    account, dapp, tf = deployAndApprove()
+
+    token2 = DappToken.deploy({"from": account})
+    token2.approve(tf.address, token2.totalSupply(), {"from": account})
+    tf.addAllowedTokens(token2.address, {"from": account})
+
+    tf.stakeTokens(1000, dapp.address, {"from": account})
+    tf.stakeTokens(1000, token2.address, {"from": account})
+
+    assert(tf.numberOfStakers() == 1)
+    tf.unstakeTokens(dapp.address, {"from": account})
+    assert(tf.numberOfStakers() == 1)
