@@ -133,7 +133,7 @@ def test_starts_with_no_stakers():
         tf.stakers(0)
 
 
-def xtest_add_to_stakers_array():  # TODO
+def test_add_to_stakers_array():
     account, dapp, tf = deployAndApprove()
     amount = 1000
     tf.stakeTokens(amount, dapp.address, {"from": account})
