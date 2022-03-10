@@ -1,4 +1,6 @@
-from brownie import TokenFarm, DappToken, exceptions
+from brownie import (
+    TokenFarm, DappToken, MockV3Aggregator, exceptions
+)
 from scripts.utils import get_account
 import pytest
 
@@ -169,6 +171,17 @@ def test_set_price_feed_address():
 
 
 # TODO test_get_staked_usd_value():
+# This checks that we are calling the price feed contract
+def test_get_token_usd_price():
+    account, dapp, tf = deployAndApprove()
+    priceFeed = MockV3Aggregator.deploy(8, 2000 * 10**8, {"from": account})
+    tf.setPriceFeedAddress(dapp.address, priceFeed.address, {"from": account})
+    price, decimals = tf.getTokenUsdPrice(dapp.address)
+    assert(decimals == 8)
+    assert(price == 2000 * 10**8)
+
+
+# TODO test_calculate_user_reward():
 # TODO test unstaking transfers tokens to user
 # TODO test unstaking set staking balance to zero
 # TODO test unstaking resets staking balance
