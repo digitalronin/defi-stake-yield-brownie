@@ -9,3 +9,14 @@ compiler:
     remappings:
       - '@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.2.0'
       - '@chainlink=smartcontractkit/chainlink-brownie-contracts@0.2.1'
+  networks:
+    development:
+      verify: False
+    kovan:
+      verify: True
+    rinkeby:
+      verify: True
+      weth_token: "0xc778417E063141139Fce010982780140Aa0cD5Ab"
+      fau_token: "0xFab46E002BbF0b4509813474841E0716E6730136"
+      eth_usd_price_feed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"
+
