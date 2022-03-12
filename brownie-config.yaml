@@ -1,4 +1,5 @@
 dotenv: .env
+dev_deployment_artifacts: True
 wallets:
   from_key: ${PRIVATE_KEY}
 dependencies:
