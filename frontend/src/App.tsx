@@ -1,5 +1,5 @@
-import React from 'react';
-import {DAppProvider, ChainId} from "@usedapp/core";
+import React from 'react'
+import {DAppProvider, ChainId} from "@usedapp/core"
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
     }}>
       <div>Hi!</div>
     </DAppProvider>
-  );
+  )
 }
 
-export default App;
+export default App
