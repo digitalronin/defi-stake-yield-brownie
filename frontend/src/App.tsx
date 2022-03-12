@@ -1,4 +1,3 @@
-import React from 'react'
 import {DAppProvider, Rinkeby} from "@usedapp/core"
 import {Header} from "./components/Header"
 import {Main} from "./components/Main"
