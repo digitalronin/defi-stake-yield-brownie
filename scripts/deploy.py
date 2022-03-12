@@ -1,6 +1,8 @@
 from scripts.utils import get_account, get_contract
 from brownie import TokenFarm, DappToken, config, network
 from web3 import Web3
+import yaml
+import json
 
 RETAINED_BALANCE = Web3.toWei(1_000, "ether")
 
@@ -10,6 +12,7 @@ def main():
     tf, dapp_token = deploy_token_farm_and_dapp_token(account)
     fund_token_farm(tf, dapp_token, account)
     add_allowed_tokens(tf, account, dapp_token)
+    update_frontend()
     return (tf, dapp_token)
 
 
@@ -50,3 +53,11 @@ def add_allowed_tokens(farm, account, dapp_token):
         farm.addAllowedTokens(token.address, {"from": account}).wait(1)
         pf = allowed_tokens[token]
         farm.setPriceFeedAddress(token.address, pf.address, {"from": account})
+
+
+def update_frontend():
+    with open("brownie-config.yaml", "r") as conf:
+        config_dict = yaml.load(conf, Loader=yaml.FullLoader)
+        with open("./frontend/brownie-config.json", "w") as jsn:
+            json.dump(config_dict, jsn)
+    print("Frontend updated.")
