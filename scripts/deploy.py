@@ -61,7 +61,7 @@ def update_frontend():
     copy_folders_to_frontend("./build", "./frontend/src/chain-info")
     with open("brownie-config.yaml", "r") as conf:
         config_dict = yaml.load(conf, Loader=yaml.FullLoader)
-        with open("./frontend/brownie-config.json", "w") as jsn:
+        with open("./frontend/src/brownie-config.json", "w") as jsn:
             json.dump(config_dict, jsn)
     print("Frontend updated.")
 
