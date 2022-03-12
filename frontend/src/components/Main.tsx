@@ -8,12 +8,17 @@ import brownieConfig from "../brownie-config.json"
 import dappImage from "../dapp.png"
 import daiImage from "../dai.png"
 import ethImage from "../eth.png"
+import {YourWallet} from "./yourWallet"
+
+export type Token = {
+  image: string,
+  address: string,
+  name: string
+}
 
 export const Main = () => {
   const {chainId} = useEthers()
   const networkName = chainId ? chainNames[String(chainId)] : "dev"
-
-  const {dappTokenAddress, wethTokenAddress, fauTokenAddress} = getTokenContractAddresses(chainId)
 
   function getTokenContractAddresses(chainId: any) {
     let rtn
@@ -45,12 +50,27 @@ export const Main = () => {
     return rtn
   }
 
+  const {dappTokenAddress, wethTokenAddress, fauTokenAddress} = getTokenContractAddresses(chainId)
+
+  const supportedTokens: Array<Token> = [
+    {
+      image: dappImage,
+      address: dappTokenAddress,
+      name: "DAPP"
+    },
+    {
+      image: ethImage,
+      address: wethTokenAddress,
+      name: "WETH"
+    },
+    {
+      image: daiImage,
+      address: fauTokenAddress,
+      name: "FAU"
+    }
+  ]
+
   return (
-    <div>
-      {networkName}<br />
-      {dappTokenAddress}<br />
-      {wethTokenAddress}<br />
-      {fauTokenAddress}<br />
-    </div>
+    <YourWallet supportedTokens={supportedTokens} />
   )
 }
