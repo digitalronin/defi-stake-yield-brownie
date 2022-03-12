@@ -1,8 +1,13 @@
+/* eslint-disable spaced-comment */
+/// <reference types="react-scripts" />
 import {useEthers} from "@usedapp/core"
 import {constants} from "ethers"
 import chainNames from "../chain-names.json"
 import mapJson from "../chain-info/deployments/map.json"
 import brownieConfig from "../brownie-config.json"
+import dappImage from "../dapp.png"
+import daiImage from "../dai.png"
+import ethImage from "../eth.png"
 
 export const Main = () => {
   const {chainId} = useEthers()
