@@ -3,6 +3,8 @@ from brownie import TokenFarm, DappToken, config, network
 from web3 import Web3
 import yaml
 import json
+import os
+import shutil
 
 RETAINED_BALANCE = Web3.toWei(1_000, "ether")
 
@@ -56,8 +58,15 @@ def add_allowed_tokens(farm, account, dapp_token):
 
 
 def update_frontend():
+    copy_folders_to_frontend("./build", "./frontend/src/chain-info")
     with open("brownie-config.yaml", "r") as conf:
         config_dict = yaml.load(conf, Loader=yaml.FullLoader)
         with open("./frontend/brownie-config.json", "w") as jsn:
             json.dump(config_dict, jsn)
     print("Frontend updated.")
+
+
+def copy_folders_to_frontend(src, dest):
+    if os.path.exists(dest):
+        shutil.rmtree(dest)
+    shutil.copytree(src, dest)
