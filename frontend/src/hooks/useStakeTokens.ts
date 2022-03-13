@@ -56,7 +56,7 @@ export const useStakeTokens = (tokenAddress: string) => {
         console.log(`error: ${approveErc20State.errorMessage}`)
       }
     }
-  }, [approveErc20State])
+  }, [approveErc20State, amountToStake, tokenAddress])
 
   useEffect(() => {
     if (stakeState.status === "Success") {
