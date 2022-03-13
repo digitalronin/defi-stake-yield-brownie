@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react"
 import {useEthers, useContractFunction} from "@usedapp/core"
 import {constants, utils} from "ethers"
 import TokenFarm from "../chain-info/contracts/TokenFarm.json"
@@ -22,10 +23,7 @@ export const useStakeTokens = (tokenAddress: string) => {
 
     return rtn
   }
-  // approve
-  //   address
-  //   abi
-  //   chainId
+
   const {chainId} = useEthers()
   const {abi} = TokenFarm
   const tokenFarmAddress = getTokenFarmAddress(chainId)
@@ -35,14 +33,41 @@ export const useStakeTokens = (tokenAddress: string) => {
   const erc20ABI = ERC20.abi
   const erc20Interface = new utils.Interface(erc20ABI)
   const erc20Contract = new Contract(tokenAddress, erc20Interface)
-  const {send: approveErc20Send, state: approveErc20State} = useContractFunction(erc20Contract, "approve", {transactionName: "Approve ERC20 transfer"})
-  const approve = (amount: string) => {
+
+  const {send: approveErc20Send, state: approveErc20State}
+    = useContractFunction(erc20Contract, "approve", {transactionName: "Approve ERC20 transfer"})
+
+  const approveAndStake = (amount: string) => {
+    setAmountToStake(amount)
     return approveErc20Send(tokenFarmAddress, amount)
   }
 
-  return {approve, approveErc20State}
+  const {send: stakeSend, state: stakeState}
+    = useContractFunction(tokenFarmContract, "stakeTokens", {transactionName: "Stake tokens"})
 
+  const [amountToStake, setAmountToStake] = useState("0")
 
+  useEffect(() => {
+    if (approveErc20State.status === "Success") {
+      stakeSend(amountToStake, tokenAddress)
+    } else {
+      console.log(`approveErc20State: ${approveErc20State.status}`)
+      if (approveErc20State.errorMessage !== undefined) {
+        console.log(`error: ${approveErc20State.errorMessage}`)
+      }
+    }
+  }, [approveErc20State])
 
-  // stake tokens
+  useEffect(() => {
+    if (stakeState.status === "Success") {
+      console.log("Staked successfully!")
+    } else {
+      console.log(`stakeState: ${stakeState.status}`)
+      if (stakeState.errorMessage !== undefined) {
+        console.log(`error: ${stakeState.errorMessage}`)
+      }
+    }
+  }, [stakeState])
+
+  return {approveAndStake, approveErc20State}
 }
