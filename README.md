@@ -15,7 +15,26 @@ I'm using the Rinkeby networkk, rather than Kovan, for my deployments; mainly be
 
 ## Setting up
 
-Copy `dotenv.example` to `.env` and replace the placeholders with your own values.
+- Copy `dotenv.example` to `.env` and replace the placeholders with your own values.
+- `cd frontend; yarn` to install JS packages
+
+> After running `yarn` run this:
+
+```
+rm -rf frontend/node_modules/\@usedapp/core/node_modules/\@ethersproject/
+```
+
+This fixes a [bug](https://github.com/TrueFiEng/useDApp/issues/263#issuecomment-961158657)
+
+
+TODO frontend env. vars
+
+## Running the front-end
+
+```
+cd frontend
+yarn start
+```
 
 ## Testing
 
@@ -25,3 +44,7 @@ Copy `dotenv.example` to `.env` and replace the placeholders with your own value
 
 `brownie run scripts/deploy.py --network rinkeby`
 
+## TODO
+
+- Both Main.tsx and useStakeTokens.ts have very similar code to get contract addresses from either map.json or brownie-config.json. Extract this into a shared library file
+- Don't bother with the approve step if there is already sufficient allowance for the staking call to succeed
