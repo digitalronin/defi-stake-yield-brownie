@@ -33,9 +33,9 @@ export const Main = () => {
       // local ganache-cli deployment, so contract addresses are in map.json
       const data = mapJson["dev"]
       rtn = {
-        dappTokenAddress: data.DappToken,
-        wethTokenAddress: data.MockWETH,
-        fauTokenAddress: data.MockDAI
+        dappTokenAddress: data.DappToken[0],
+        wethTokenAddress: data.MockWETH[0],
+        fauTokenAddress: data.MockDAI[0]
       }
     } else {
       // 'real' deployment, so contract addresses are in brownie-config.json

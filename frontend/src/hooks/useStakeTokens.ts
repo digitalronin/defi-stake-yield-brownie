@@ -14,7 +14,7 @@ export const useStakeTokens = (tokenAddress: string) => {
     } else if (chainId === 1337) {
       // local ganache-cli deployment, so contract addresses are in map.json
       const data = mapJson["dev"]
-      rtn = data.TokenFarm
+      rtn = data.TokenFarm[0]
     } else {
       // 'real' deployment, so contract address comes from map.json
       rtn = mapJson[String(chainId)]["TokenFarm"][0]
