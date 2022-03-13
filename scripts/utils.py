@@ -4,6 +4,7 @@ from brownie import (
     accounts,
     Contract,
     MockDAI,
+    MockERC20,
     MockWETH,
     MockV3Aggregator,
 )
@@ -70,6 +71,9 @@ def deploy_mocks():
     account = get_account()
     weth = MockWETH.deploy({"from": account})
     print(f"Deployed mock WETH contract: {weth.address}")
+    erc20 = MockERC20.deploy({"from": account})
+    print(f"Deployed mock ERC20 contract: {erc20.address}")
+    erc20 = MockERC20.deploy({"from": account})
     fau = MockDAI.deploy({"from": account})
     print(f"Deployed mock FAU contract: {fau.address}")
     pf = MockV3Aggregator.deploy(8, 2000 * 10**8, {"from": account})
