@@ -4,6 +4,7 @@ import {TabContext, TabList, TabPanel} from "@material-ui/lab"
 import {Tab} from "@material-ui/core"
 import {Token} from "../Main"
 import {WalletBalance} from "./WalletBalance"
+import {StakeForm} from "./StakeForm"
 
 interface YourWalletProps {
   supportedTokens: Array<Token>
@@ -32,9 +33,11 @@ export const YourWallet = ({supportedTokens}: YourWalletProps) => {
             })}
           </TabList>
           {supportedTokens.map((token, index) => {
+            const selectedToken = supportedTokens[selectedTokenIndex]
             return (
               <TabPanel value={index.toString()} key={index}>
-                <WalletBalance token={supportedTokens[selectedTokenIndex]} />
+                <WalletBalance token={selectedToken} />
+                <StakeForm token={selectedToken} />
               </TabPanel>
             )
           })}
