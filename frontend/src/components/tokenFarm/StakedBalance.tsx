@@ -1,4 +1,3 @@
-import {useEthers} from "@usedapp/core"
 import {Token} from "../Main"
 import {BalanceMsg} from "../BalanceMsg"
 import {useStakedBalance} from "../../hooks/useStakedBalance"
@@ -9,8 +8,6 @@ export interface StakedBalanceProps {
 
 export const StakedBalance = ({token}: StakedBalanceProps) => {
   const {image, address: tokenAddress, name} = token
-  const {account} = useEthers()
-
   const {balance: stakedBalance} = useStakedBalance(tokenAddress)
 
   return (
