@@ -4,7 +4,7 @@ This is my version of the "full stack" (i.e. front-end and back-end) DeFi stake/
 
 My code and tests are a little different from those in the course, but the overall results should be the same.
 
-I'm using the Rinkeby networkk, rather than Kovan, for my deployments; mainly because Rinkeby test Ether is [easier to get](https://faucet.rinkeby.io/) than Kovan Ether.
+I'm using the Rinkeby network, rather than Kovan, for my deployments; mainly because Rinkeby test Ether is [easier to get](https://faucet.rinkeby.io/) than Kovan Ether.
 
 ## Pre-requisites
 
@@ -46,5 +46,13 @@ yarn start
 
 ## TODO
 
-- Both Main.tsx and useStakeTokens.ts have very similar code to get contract addresses from either map.json or brownie-config.json. Extract this into a shared library file
+- Disable stake button between approval and staking tx
+- Make it look prettier
+- Build a utility page to quickly add dev. tokens to metamask (conditional - don't build for production)
+- Hide the whole app. if the user's wallet is not connected (use the useDapp modal to force user to connect?)
+- Deploy a Rinkeby version to Heroku/GitHub Pages
 - Don't bother with the approve step if there is already sufficient allowance for the staking call to succeed
+- Don't disconnect on every page refresh (if that's possible)
+- Add "unsupported chain" notification
+- Replace hardcoded strings with constants (e.g. tx names)
+- Don't get token balances for all tabs - just for the selected tab
