@@ -3,8 +3,7 @@ import {Box} from "@material-ui/core"
 import {TabContext, TabList, TabPanel} from "@material-ui/lab"
 import {Tab} from "@material-ui/core"
 import {Token} from "../Main"
-import {WalletBalance} from "./WalletBalance"
-import {StakeForm} from "./StakeForm"
+import {TokenBalanceAndStakeForm} from "./TokenBalanceAndStakeForm"
 import {makeStyles} from "@material-ui/core"
 
 interface YourWalletProps {
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 export const YourWallet = ({supportedTokens}: YourWalletProps) => {
   const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(0)
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+  const handleChange = (_event: React.ChangeEvent<{}>, newValue: string) => {
     setSelectedTokenIndex(parseInt(newValue))
   }
 
@@ -50,14 +49,13 @@ export const YourWallet = ({supportedTokens}: YourWalletProps) => {
               )
             })}
           </TabList>
-          {supportedTokens.map((token, index) => {
+          {supportedTokens.map((_token, index) => {
             const selectedToken = supportedTokens[selectedTokenIndex]
             return (
               <TabPanel value={index.toString()} key={index}>
-                <div className={classes.tabContent}>
-                  <WalletBalance token={selectedToken} />
-                  <StakeForm token={selectedToken} />
-                </div>
+                <TokenBalanceAndStakeForm
+                  token={selectedToken}
+                  className={classes.tabContent} />
               </TabPanel>
             )
           })}

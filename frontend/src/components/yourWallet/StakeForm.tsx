@@ -8,10 +8,11 @@ import {useStakeTokens} from "../../hooks/useStakeTokens"
 
 export interface StakeFormProps {
   token: Token
+  balance: number
 }
 
-export const StakeForm = ({token}: StakeFormProps) => {
-  const {address: tokenAddress, name} = token
+export const StakeForm = ({token, balance}: StakeFormProps) => {
+  const {address: tokenAddress} = token
   const {notifications} = useNotifications()
 
   const [amount, setAmount] = useState<number | string | Array<number | string>>(0)
@@ -24,6 +25,8 @@ export const StakeForm = ({token}: StakeFormProps) => {
   const {approveAndStake, state: approveAndStakeErc20State} = useStakeTokens(tokenAddress)
 
   const isMining = approveAndStakeErc20State.status === "Mining"
+  const zeroBalance = balance === 0
+
   const [showErc20ApprovalSuccess, setShowErc20ApprovalSuccess] = useState(false)
   const [showStakeTokenSuccess, setShowStakeTokenSuccess] = useState(false)
 
@@ -61,7 +64,7 @@ export const StakeForm = ({token}: StakeFormProps) => {
         <Button
           onClick={handleStakeSubmit}
           color="primary"
-          disabled={isMining}
+          disabled={zeroBalance || isMining}
           size="large">
           {isMining ? <CircularProgress size={26} /> : "Stake!"}
         </Button>
