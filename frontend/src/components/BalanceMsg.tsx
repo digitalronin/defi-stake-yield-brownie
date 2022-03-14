@@ -16,8 +16,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export interface BalanceMsgProps {
-  label: string,
-  tokenImgSrc: string,
+  label: string
+  tokenImgSrc: string
   amount: number
 }
 

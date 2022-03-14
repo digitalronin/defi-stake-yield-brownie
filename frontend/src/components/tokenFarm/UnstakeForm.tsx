@@ -5,9 +5,9 @@ import {StakedBalance} from "./StakedBalance"
 import {useStakedBalance} from "../../hooks/useStakedBalance"
 
 export interface UnstakeFormProps {
-  token: Token,
-  className: string,
-  handleUnstakeSubmit: MouseEventHandler,
+  token: Token
+  className: string
+  handleUnstakeSubmit: MouseEventHandler
   isMining: boolean
 }
 

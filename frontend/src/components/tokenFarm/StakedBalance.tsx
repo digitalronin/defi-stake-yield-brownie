@@ -2,7 +2,7 @@ import {Token} from "../Main"
 import {BalanceMsg} from "../BalanceMsg"
 
 export interface StakedBalanceProps {
-  token: Token,
+  token: Token
   balance: number
 }
 
