@@ -9,6 +9,7 @@ import dappImage from "../dapp.png"
 import daiImage from "../dai.png"
 import ethImage from "../eth.png"
 import {YourWallet} from "./yourWallet"
+import {makeStyles} from "@material-ui/core"
 
 export type Token = {
   image: string,
@@ -16,9 +17,18 @@ export type Token = {
   name: string
 }
 
+const useStyles = makeStyles((theme) => ({
+  title: {
+    color: theme.palette.common.white,
+    textAlign: "center",
+    padding: theme.spacing(4)
+  }
+}))
+
 export const Main = () => {
   const {chainId} = useEthers()
   const networkName = chainId ? chainNames[String(chainId)] : "dev"
+  const classes = useStyles()
 
   function getTokenContractAddresses(chainId: any) {
     let rtn
@@ -71,6 +81,9 @@ export const Main = () => {
   ]
 
   return (
-    <YourWallet supportedTokens={supportedTokens} />
+    <div>
+      <h2 className={classes.title}>Dapp Token App</h2>
+      <YourWallet supportedTokens={supportedTokens} />
+    </div>
   )
 }
