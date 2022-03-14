@@ -15,7 +15,7 @@ export const StakeForm = ({token, balance}: StakeFormProps) => {
   const {address: tokenAddress} = token
   const {notifications} = useNotifications()
 
-  const [amount, setAmount] = useState<number | string | Array<number | string>>(0)
+  const [amount, setAmount] = useState<number | string | Array<number | string>>("")
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = event.target.value === "" ? "" : Number(event.target.value)
@@ -55,13 +55,14 @@ export const StakeForm = ({token, balance}: StakeFormProps) => {
         notification.transactionName === "Stake tokens").length > 0) {
       setShowErc20ApprovalSuccess(false)
       setShowStakeTokenSuccess(true)
+      setAmount("")
     }
   }, [notifications, showErc20ApprovalSuccess, showStakeTokenSuccess])
 
   return (
     <div>
       <div>
-        <Input onChange={handleInputChange} />
+        <Input onChange={handleInputChange} value={amount} />
         <Button
           onClick={handleStakeSubmit}
           color="primary"
