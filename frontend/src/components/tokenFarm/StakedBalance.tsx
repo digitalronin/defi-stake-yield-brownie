@@ -1,16 +1,21 @@
+import {useEthers} from "@usedapp/core"
 import {Token} from "../Main"
 import {BalanceMsg} from "../BalanceMsg"
+import {useStakedBalance} from "../../hooks/useStakedBalance"
 
 export interface StakedBalanceProps {
   token: Token
 }
 
 export const StakedBalance = ({token}: StakedBalanceProps) => {
-  const {image, address, name} = token
+  const {image, address: tokenAddress, name} = token
+  const {account} = useEthers()
+
+  const {balance: stakedBalance} = useStakedBalance(tokenAddress)
 
   return (
     <BalanceMsg label={`Your staked ${name} balance`}
       tokenImgSrc={image}
-      amount={99999} />
+      amount={stakedBalance} />
   )
 }
