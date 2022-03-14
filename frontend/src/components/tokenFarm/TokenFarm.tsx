@@ -3,6 +3,7 @@ import {Box} from "@material-ui/core"
 import {TabContext, TabList, TabPanel} from "@material-ui/lab"
 import {Tab} from "@material-ui/core"
 import {Token} from "../Main"
+import {StakedBalance} from "./StakedBalance"
 import {makeStyles} from "@material-ui/core"
 
 interface TokenFarmProps {
@@ -48,6 +49,16 @@ export const TokenFarm = ({supportedTokens}: TokenFarmProps) => {
               )
             })}
           </TabList>
+          {supportedTokens.map((token, index) => {
+            const selectedToken = supportedTokens[selectedTokenIndex]
+            return (
+              <TabPanel value={index.toString()} key={index}>
+                <div className={classes.tabContent}>
+                  <StakedBalance token={selectedToken} />
+                </div>
+              </TabPanel>
+            )
+          })}
         </TabContext>
       </Box>
     </Box>
