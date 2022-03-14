@@ -1,10 +1,14 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {Box} from "@material-ui/core"
+import {Button, CircularProgress, Snackbar} from "@material-ui/core"
 import {TabContext, TabList, TabPanel} from "@material-ui/lab"
 import {Tab} from "@material-ui/core"
 import {Token} from "../Main"
 import {StakedBalance} from "./StakedBalance"
 import {makeStyles} from "@material-ui/core"
+import Alert from "@material-ui/lab/Alert"
+import {useNotifications} from "@usedapp/core"
+import {useUnstakeAll} from "../../hooks/useUnstakeAll"
 
 interface TokenFarmProps {
   supportedTokens: Array<Token>
@@ -28,12 +32,38 @@ const useStyles = makeStyles((theme) => ({
 
 export const TokenFarm = ({supportedTokens}: TokenFarmProps) => {
   const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(0)
+  const [showUnstakeTokenSuccess, setShowUnstakeTokenSuccess] = useState(false)
+
+  const {notifications} = useNotifications()
+
+  const classes = useStyles()
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
     setSelectedTokenIndex(parseInt(newValue))
   }
 
-  const classes = useStyles()
+  const selectedToken = supportedTokens[selectedTokenIndex]
+  const {unStakeAll, state: unStakeState} = useUnstakeAll(selectedToken.address)
+
+  const isMining = unStakeState.status === "Mining"
+
+  const handleUnstakeSubmit = () => {
+    console.log("unstake all", selectedToken.name)
+    return unStakeAll()
+  }
+
+  const handleCloseSnack = () => {
+    setShowUnstakeTokenSuccess(false)
+  }
+
+  useEffect(() => {
+    if (notifications.filter(
+      (notification) =>
+        notification.type === "transactionSucceed" &&
+        notification.transactionName === "Unstake tokens").length > 0) {
+      setShowUnstakeTokenSuccess(true)
+    }
+  }, [notifications, showUnstakeTokenSuccess])
 
   return (
     <Box>
@@ -50,12 +80,26 @@ export const TokenFarm = ({supportedTokens}: TokenFarmProps) => {
             })}
           </TabList>
           {supportedTokens.map((token, index) => {
-            const selectedToken = supportedTokens[selectedTokenIndex]
             return (
               <TabPanel value={index.toString()} key={index}>
                 <div className={classes.tabContent}>
                   <StakedBalance token={selectedToken} />
+                  <Button
+                    onClick={handleUnstakeSubmit}
+                    color="primary"
+                    disabled={isMining}
+                    size="large">
+                    {isMining ? <CircularProgress size={26} /> : "Unstake All"}
+                  </Button>
                 </div>
+                <Snackbar
+                  open={showUnstakeTokenSuccess}
+                  autoHideDuration={5000}
+                  onClose={handleCloseSnack}>
+                  <Alert onClose={handleCloseSnack} severity="success">
+                    {`Your ${selectedToken.name} have been unstaked`}
+                  </Alert>
+                </Snackbar>
               </TabPanel>
             )
           })}
