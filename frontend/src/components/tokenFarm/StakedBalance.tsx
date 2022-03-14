@@ -1,18 +1,17 @@
 import {Token} from "../Main"
 import {BalanceMsg} from "../BalanceMsg"
-import {useStakedBalance} from "../../hooks/useStakedBalance"
 
 export interface StakedBalanceProps {
-  token: Token
+  token: Token,
+  balance: number
 }
 
-export const StakedBalance = ({token}: StakedBalanceProps) => {
-  const {image, address: tokenAddress, name} = token
-  const {balance: stakedBalance} = useStakedBalance(tokenAddress)
+export const StakedBalance = ({token, balance}: StakedBalanceProps) => {
+  const {image, name} = token
 
   return (
     <BalanceMsg label={`Your staked ${name} balance`}
       tokenImgSrc={image}
-      amount={stakedBalance} />
+      amount={balance} />
   )
 }

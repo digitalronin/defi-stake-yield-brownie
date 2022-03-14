@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react"
 import {Box} from "@material-ui/core"
-import {Button, CircularProgress, Snackbar} from "@material-ui/core"
+import {Snackbar} from "@material-ui/core"
 import {TabContext, TabList, TabPanel} from "@material-ui/lab"
 import {Tab} from "@material-ui/core"
 import {Token} from "../Main"
-import {StakedBalance} from "./StakedBalance"
+import {UnstakeForm} from "./UnstakeForm"
 import {makeStyles} from "@material-ui/core"
 import Alert from "@material-ui/lab/Alert"
 import {useNotifications} from "@usedapp/core"
@@ -38,7 +38,7 @@ export const TokenFarm = ({supportedTokens}: TokenFarmProps) => {
 
   const classes = useStyles()
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+  const handleChange = (_event: React.ChangeEvent<{}>, newValue: string) => {
     setSelectedTokenIndex(parseInt(newValue))
   }
 
@@ -79,19 +79,15 @@ export const TokenFarm = ({supportedTokens}: TokenFarmProps) => {
               )
             })}
           </TabList>
-          {supportedTokens.map((token, index) => {
+          {supportedTokens.map((_token, index) => {
             return (
               <TabPanel value={index.toString()} key={index}>
-                <div className={classes.tabContent}>
-                  <StakedBalance token={selectedToken} />
-                  <Button
-                    onClick={handleUnstakeSubmit}
-                    color="primary"
-                    disabled={isMining}
-                    size="large">
-                    {isMining ? <CircularProgress size={26} /> : "Unstake All"}
-                  </Button>
-                </div>
+                <UnstakeForm
+                  className={classes.tabContent}
+                  token={selectedToken}
+                  handleUnstakeSubmit={handleUnstakeSubmit}
+                  isMining={isMining}
+                />
                 <Snackbar
                   open={showUnstakeTokenSuccess}
                   autoHideDuration={5000}
