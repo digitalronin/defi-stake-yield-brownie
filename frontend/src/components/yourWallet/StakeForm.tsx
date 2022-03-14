@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react"
-import {formatUnits} from "@ethersproject/units"
 import {utils} from "ethers"
-import {useEthers, useTokenBalance, useNotifications} from "@usedapp/core"
 import {Button, Input, CircularProgress} from "@material-ui/core"
 import {Token} from "../Main"
 import {useStakeTokens} from "../../hooks/useStakeTokens"
@@ -12,9 +10,6 @@ export interface StakeFormProps {
 
 export const StakeForm = ({token}: StakeFormProps) => {
   const {address: tokenAddress, name} = token
-  const {account} = useEthers()
-  const tokenBalance = useTokenBalance(tokenAddress, account)
-  const formattedBalance: number = tokenBalance ? parseFloat(formatUnits(tokenBalance, 18)) : 0
   const {notifications} = useNotifications()
 
   const [amount, setAmount] = useState<number | string | Array<number | string>>(0)
