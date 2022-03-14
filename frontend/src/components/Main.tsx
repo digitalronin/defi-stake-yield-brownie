@@ -9,6 +9,7 @@ import dappImage from "../dapp.png"
 import daiImage from "../dai.png"
 import ethImage from "../eth.png"
 import {YourWallet} from "./yourWallet"
+import {TokenFarm} from "./tokenFarm"
 import {makeStyles} from "@material-ui/core"
 
 export type Token = {
@@ -84,6 +85,7 @@ export const Main = () => {
     <div>
       <h2 className={classes.title}>Dapp Token App</h2>
       <YourWallet supportedTokens={supportedTokens} />
+      <TokenFarm supportedTokens={supportedTokens} />
     </div>
   )
 }
