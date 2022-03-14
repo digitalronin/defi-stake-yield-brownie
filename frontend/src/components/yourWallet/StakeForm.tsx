@@ -26,6 +26,7 @@ export const StakeForm = ({token, balance}: StakeFormProps) => {
 
   const isMining = approveAndStakeErc20State.status === "Mining"
   const zeroBalance = balance === 0
+  const inputIsEmpty = amount <= 0
 
   const [showErc20ApprovalSuccess, setShowErc20ApprovalSuccess] = useState(false)
   const [showStakeTokenSuccess, setShowStakeTokenSuccess] = useState(false)
@@ -64,7 +65,7 @@ export const StakeForm = ({token, balance}: StakeFormProps) => {
         <Button
           onClick={handleStakeSubmit}
           color="primary"
-          disabled={zeroBalance || isMining}
+          disabled={zeroBalance || inputIsEmpty || isMining}
           size="large">
           {isMining ? <CircularProgress size={26} /> : "Stake!"}
         </Button>
