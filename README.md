@@ -10,6 +10,12 @@ I'm using the Rinkeby network, rather than Kovan, for my deployments; mainly bec
 
 A version of the frontend app, using the Ethereum Rinkeby test network, is deployed [here](https://digitalronin.github.io/defi-stake-yield-brownie/frontend/build/)
 
+The frontend is set up to automatically deploy via GitHub Pages, using a GitHub Action defined in `.github/workflows/deploy.yml`
+
+If you want to use the same process for your own fork you will need to change `digitalronin` to your GitHub username in the URL above, and in the `homepage` entry in `frontend/package.json`
+
+If you are deploying to the root of your own domain, you can remove the `homepage` entry.
+
 ## Pre-requisites
 
 - [python3](https://www.python.org/), [npm](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/) and [yarn](https://yarnpkg.com/)
@@ -44,11 +50,14 @@ yarn start
 
 ## Deploying
 
-`brownie run scripts/deploy.py --network rinkeby`
+Deploy the smart contracts like this:
+
+```
+brownie run scripts/deploy.py --network rinkeby
+```
 
 ## TODO
 
-- Automate the frontend deployment process using GitHub actions
 - Disable stake button between approval and staking tx
 - Make it look prettier
   - add space below the TokenFarm component
