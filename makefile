@@ -9,3 +9,13 @@ start-local-blockchain:
 
 deploy-local:
 	brownie run scripts/deploy.py
+
+build-frontend:
+	cd frontend; \
+	yarn build
+
+commit-built-frontend:
+	git checkout deploy
+	git add -u frontend/build  # Remove any deleted build files
+	find frontend/build/ | xargs git add -f  # Sometimes files are skipped if we just `git add -f frontend/build` - this should be more reliable
+	git commit -m "Commit updated frontend/build"
