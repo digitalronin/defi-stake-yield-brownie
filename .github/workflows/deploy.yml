@@ -12,7 +12,10 @@ jobs:
       image: node:17-slim
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies & build
+      - name: Install dependencies
+        run: |
+          cd frontend; yarn
+      - name: Build frontend
         run: |
           cd frontend; yarn build
 
