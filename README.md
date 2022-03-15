@@ -48,7 +48,6 @@ yarn start
 
 ## TODO
 
-- Deploy a Rinkeby version to Heroku/GitHub Pages
 - Automate the frontend deployment process using GitHub actions
 - Disable stake button between approval and staking tx
 - Make it look prettier
