@@ -1,0 +1,20 @@
+name: Build and deploy frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - "actions"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    container:
+      image: node:17-slim
+    steps:
+      - uses actions/checkout@v2
+      - name: Install dependencies & build
+        run: |
+          cd frontend; yarn build
+
+
+
