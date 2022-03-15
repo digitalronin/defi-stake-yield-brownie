@@ -1,0 +1,32 @@
+name: Build and deploy frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          cd frontend; yarn
+      - name: Fix Contract conflict
+        run: |
+          rm -rf frontend/node_modules/\@usedapp/core/node_modules/\@ethersproject/
+      - name: Build frontend
+        run: |
+          cd frontend; yarn build
+      - name: Set git credentials
+        run: |
+          git config --global user.email "deployer@foo.com"
+          git config --global user.name "GitHub Actions Deployer"
+      - name: Update deploy branch
+        run: |
+          git checkout -b deploy
+          git add -u frontend/build
+          find frontend/build/ | xargs git add -f
+          git commit -m "Commit updated frontend/build"
+          git push --force origin deploy
