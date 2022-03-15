@@ -14,7 +14,7 @@ The frontend is set up to automatically deploy via GitHub Pages, using a GitHub 
 
 If you want to use the same process for your own fork you will need to change `digitalronin` to your GitHub username in the URL above, and in the `homepage` entry in `frontend/package.json`
 
-If you are deploying to the root of your own domain, you can remove the `homepage` entry.
+If you are deploying to the root of your own domain, you must remove the `homepage` entry.
 
 ## Pre-requisites
 
@@ -69,3 +69,4 @@ brownie run scripts/deploy.py --network rinkeby
 - Don't get token balances for all tabs - just for the selected tab
 - Add an admin page with a button to call `issueTokens` to distribute staking rewards
 - Properly fix the bug where 1000+ staking transactions were created after approve TX succeeds (I have a workaround in place, but it would be better to understand and correct the real problem)
+- Create a mobile-friendly version (offer WalletConnect as an option?)
