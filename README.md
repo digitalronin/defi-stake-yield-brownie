@@ -48,7 +48,6 @@ yarn start
 
 ## TODO
 
-- BUG: On Rinkeby, after the approve tx succeeds, the app. seems to queue up and then remove 1000+ stake transactions. This needs fixing.
 - Deploy a Rinkeby version to Heroku/GitHub Pages
 - Automate the frontend deployment process using GitHub actions
 - Disable stake button between approval and staking tx
