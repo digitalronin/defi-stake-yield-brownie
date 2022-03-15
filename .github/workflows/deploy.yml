@@ -21,6 +21,15 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend; yarn build
+      - name: Update deploy branch
+        run: |
+          git checkout deploy
+          git add -u frontend/build
+          find frontend/build/ \| xargs git add -f
+          git commit -m "Commit updated frontend/build"
+          git push origin deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
