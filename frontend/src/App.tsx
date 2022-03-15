@@ -1,5 +1,7 @@
 import {DAppProvider, Rinkeby} from "@usedapp/core"
 import {Home} from "./components/Home"
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {AppAdmin} from "./components/AppAdmin"
 
 function App() {
   return (
@@ -13,7 +15,12 @@ function App() {
         "1337": "0x30375b532345b01cb8c2ad12541b09e9aa53a93d",
       },
     }}>
-      <Home />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<AppAdmin />} />
+        </Routes>
+      </BrowserRouter>
     </DAppProvider>
   )
 }
