@@ -1,4 +1,4 @@
-import {useEthers, useCall} from "@usedapp/core"
+import {useEthers} from "@usedapp/core"
 import TokenFarm from "../chain-info/contracts/TokenFarm.json"
 import {constants, utils} from "ethers"
 import mapJson from "../chain-info/deployments/map.json"

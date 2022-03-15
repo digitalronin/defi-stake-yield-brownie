@@ -1,8 +1,5 @@
-import {useEffect, useState} from "react"
+import {useEffect} from "react"
 import {useContractFunction} from "@usedapp/core"
-import {utils} from "ethers"
-import ERC20 from "../chain-info/contracts/MockERC20.json"
-import {Contract} from "@ethersproject/contracts"
 import {useTokenFarmContract} from "./utils"
 
 export const useUnstakeAll = (tokenAddress: string) => {
@@ -10,8 +7,6 @@ export const useUnstakeAll = (tokenAddress: string) => {
 
   const {send: unStakeSend, state: unStakeState}
     = useContractFunction(tokenFarmContract, "unstakeTokens", {transactionName: "Unstake tokens"})
-
-  const [state, setState] = useState(unStakeState)
 
   const unStakeAll = () => {
     console.log("Unstake all the things!!!", tokenAddress)
