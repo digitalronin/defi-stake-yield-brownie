@@ -15,6 +15,9 @@ jobs:
       - name: Install dependencies
         run: |
           cd frontend; yarn
+      - name: Fix Contract conflict
+        run: |
+          rm -rf frontend/node_modules/\@usedapp/core/node_modules/\@ethersproject/
       - name: Build frontend
         run: |
           cd frontend; yarn build
