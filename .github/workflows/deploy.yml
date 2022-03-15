@@ -21,7 +21,7 @@ jobs:
           cd frontend; yarn build
       - name: Update deploy branch
         run: |
-          git checkout deploy
+          git checkout -b deploy
           git add -u frontend/build
           find frontend/build/ \| xargs git add -f
           git commit -m "Commit updated frontend/build"
