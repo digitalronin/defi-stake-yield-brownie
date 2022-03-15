@@ -19,6 +19,10 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend; yarn build
+      - name: Set git credentials
+        run: |
+          git config --global user.email "deployer@foo.com"
+          git config --global user.name "GitHub Actions Deployer"
       - name: Update deploy branch
         run: |
           git checkout -b deploy
