@@ -6,6 +6,10 @@ My code and tests are a little different from those in the course, but the overa
 
 I'm using the Rinkeby network, rather than Kovan, for my deployments; mainly because Rinkeby test Ether is [easier to get](https://faucet.rinkeby.io/) than Kovan Ether.
 
+## Deployed App.
+
+A version of the frontend app, using the Ethereum Rinkeby test network, is deployed [here](https://digitalronin.github.io/defi-stake-yield-brownie/frontend/build/)
+
 ## Pre-requisites
 
 - [python3](https://www.python.org/), [npm](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/) and [yarn](https://yarnpkg.com/)
@@ -44,7 +48,9 @@ yarn start
 
 ## TODO
 
+- BUG: On Rinkeby, after the approve tx succeeds, the app. seems to queue up and then remove 1000+ stake transactions. This needs fixing.
 - Deploy a Rinkeby version to Heroku/GitHub Pages
+- Automate the frontend deployment process using GitHub actions
 - Disable stake button between approval and staking tx
 - Make it look prettier
   - add space below the TokenFarm component
