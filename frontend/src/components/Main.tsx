@@ -83,7 +83,7 @@ export const Main = () => {
 
   return (
     <div>
-      <h2 className={classes.title}>Dapp Token App</h2>
+      <h2 className={classes.title}>Dapp Token XX App</h2>
       <YourWallet supportedTokens={supportedTokens} />
       <TokenFarm supportedTokens={supportedTokens} />
     </div>
