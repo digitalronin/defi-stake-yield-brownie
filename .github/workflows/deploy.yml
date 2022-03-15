@@ -12,19 +12,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          cd frontend; yarn
-      - name: Fix Contract conflict
-        run: |
-          rm -rf frontend/node_modules/\@usedapp/core/node_modules/\@ethersproject/
-      - name: Build frontend
-        run: |
-          cd frontend; yarn build
-      - name: Update deploy branch
-        run: |
-          git checkout -b deploy
-          git add -u frontend/build
-          find frontend/build/ \| xargs git add -f
-          git commit -m "Commit updated frontend/build"
-          git push origin deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          git --version
