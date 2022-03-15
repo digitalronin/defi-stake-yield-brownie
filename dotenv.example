@@ -1,6 +1,13 @@
-# Rinkeby
+###########################################################################
+# This should be the private key of a wallet with some Rinkeby test Ether #
+# DO NOT USE A WALLET THAT CONTAINS ANY MAINNET CRYPTOCURRENCIES          #
+###########################################################################
 PRIVATE_KEY=0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
+# This is required for deployment to a public blockchain, in this case the
+# Ethereum Rinkeby test network
 WEB3_INFURA_PROJECT_ID=11111111111111111111111111111111
 
+# This is required to enable Etherscan to verify the source code of contracts
+# you deploy to the Rinkeby network
 ETHERSCAN_TOKEN=2222222222222222222222222222222222

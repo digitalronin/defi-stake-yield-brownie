@@ -8,10 +8,11 @@ I'm using the Rinkeby network, rather than Kovan, for my deployments; mainly bec
 
 ## Pre-requisites
 
-- [Brownie](https://github.com/eth-brownie/brownie#brownie)
-- The private key for an ethereum wallet with some Rinkeby test Ether
-- An [Infura](https://infura.io/) Ethereum project ID
-- An [Etherscan API key](https://etherscan.io/myapikey)
+- [python3](https://www.python.org/), [npm](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/) and [yarn](https://yarnpkg.com/)
+- [Brownie](https://github.com/eth-brownie/brownie#brownie) smart contract development toolkit
+- The private key for an ethereum wallet with some Rinkeby test Ether to pay for the deployment transaction, and to use when interacting with the contracts
+- An [Infura](https://infura.io/) to enable deployment to a public network (Rinkeby)
+- An [Etherscan API key](https://etherscan.io/myapikey) Ethereum project ID (to enable validating the source code when the smart contracts are deployed)
 
 ## Setting up
 
@@ -25,9 +26,6 @@ rm -rf frontend/node_modules/\@usedapp/core/node_modules/\@ethersproject/
 ```
 
 This fixes a [bug](https://github.com/TrueFiEng/useDApp/issues/263#issuecomment-961158657)
-
-
-TODO frontend env. vars
 
 ## Running the front-end
 
@@ -46,11 +44,11 @@ yarn start
 
 ## TODO
 
+- Deploy a Rinkeby version to Heroku/GitHub Pages
 - Disable stake button between approval and staking tx
 - Make it look prettier
-- Build a utility page to quickly add dev. tokens to metamask (conditional - don't build for production)
+  - add space below the TokenFarm component
 - Hide the whole app. if the user's wallet is not connected (use the useDapp modal to force user to connect?)
-- Deploy a Rinkeby version to Heroku/GitHub Pages
 - Don't bother with the approve step if there is already sufficient allowance for the staking call to succeed
 - Don't disconnect on every page refresh (if that's possible)
 - Add "unsupported chain" notification
