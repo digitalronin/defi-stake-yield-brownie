@@ -42,9 +42,9 @@
           var decoded = l.search.slice(1).split('&').map(function(s) {
             return s.replace(/~and~/g, '&')
           }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
+          var dest = l.pathname.slice(0, -1) + decoded + l.hash;
+          console.log("redirecting to", dest);
+          window.history.replaceState(null, null, dest);
         }
       }(window.location))
     </script>
