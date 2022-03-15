@@ -1,7 +1,5 @@
 import {DAppProvider, Rinkeby} from "@usedapp/core"
-import {Header} from "./components/Header"
-import {Main} from "./components/Main"
-import {Container} from "@material-ui/core"
+import {Home} from "./components/Home"
 
 function App() {
   return (
@@ -15,10 +13,7 @@ function App() {
         "1337": "0x30375b532345b01cb8c2ad12541b09e9aa53a93d",
       },
     }}>
-      <Header></Header>
-      <Container maxWidth="md">
-        <Main />
-      </Container>
+      <Home />
     </DAppProvider>
   )
 }
