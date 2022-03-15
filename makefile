@@ -11,6 +11,7 @@ deploy-local:
 	brownie run scripts/deploy.py
 
 serve:
+	rm -rf frontend/node_modules/\@usedapp/core/node_modules/\@ethersproject/ || true
 	cd frontend; yarn start
 
 build-frontend:
