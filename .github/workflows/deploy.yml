@@ -6,7 +6,7 @@ on:
       - "actions"
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
     container:
       image: node:17-slim
@@ -21,6 +21,10 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend; yarn build
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Update deploy branch
         run: |
           git checkout deploy
@@ -29,7 +33,7 @@ jobs:
           git commit -m "Commit updated frontend/build"
           git push origin deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
 
 
 
