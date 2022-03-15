@@ -30,5 +30,3 @@ jobs:
           find frontend/build/ | xargs git add -f
           git commit -m "Commit updated frontend/build"
           git push --force origin deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
