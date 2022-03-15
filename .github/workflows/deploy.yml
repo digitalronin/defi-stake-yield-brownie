@@ -23,6 +23,7 @@ jobs:
           cd frontend; yarn build
 
   deploy:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Update deploy branch
@@ -34,6 +35,3 @@ jobs:
           git push origin deploy
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-
-
-
