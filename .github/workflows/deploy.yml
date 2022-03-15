@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: node:17-slim
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -21,11 +19,6 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend; yarn build
-
-  deploy:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
       - name: Update deploy branch
         run: |
           git checkout deploy
