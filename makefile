@@ -10,6 +10,9 @@ start-local-blockchain:
 deploy-local:
 	brownie run scripts/deploy.py
 
+serve:
+	cd frontend; yarn start
+
 build-frontend:
 	cd frontend; \
 	yarn build
