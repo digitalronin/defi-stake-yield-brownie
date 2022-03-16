@@ -62,7 +62,6 @@ See the [github action file] for more details.
 
 - Disable stake button between approval and staking tx
 - Make it look prettier
-  - add space below the TokenFarm component
 - Hide the whole app. if the user's wallet is not connected (use the useDapp modal to force user to connect?)
 - Don't bother with the approve step if there is already sufficient allowance for the staking call to succeed
 - Don't disconnect on every page refresh (if that's possible)
@@ -74,6 +73,7 @@ See the [github action file] for more details.
 - Disconnect if the user switches accounts in their wallet (currently, the "DISCONNECT" button is still shown, but I don't think the connection is working properly)
 - Admin: show remaining DAPP token balance of TokenFarm contract
 - Move the deployed app. to Heroku, so that I can use the react router to have multiple pages
+- Add a badge showing the currently-connected chain name
 
 
 [deployed_url]: https://digitalronin.github.io/defi-stake-yield-brownie/frontend/build/

@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
     textAlign: "center",
     padding: theme.spacing(4)
+  },
+  mainWrapper: {
+    paddingBottom: theme.spacing(8)
   }
 }))
 
@@ -86,7 +89,7 @@ export const Main = () => {
   const adminComponent = useIsAdmin() ? <Admin /> : ""
 
   return (
-    <div>
+    <div className={classes.mainWrapper}>
       <h2 className={classes.title}>Dapp Token App</h2>
       <YourWallet supportedTokens={supportedTokens} />
       <TokenFarm supportedTokens={supportedTokens} />
