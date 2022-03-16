@@ -43,7 +43,7 @@ export const Admin = () => {
   useEffect(() => {
     if (notifications.filter(
       (notification) =>
-        notification.type == "transactionSucceed" &&
+        notification.type === "transactionSucceed" &&
         notification.transactionName === "Issue tokens").length > 0) {
       setShowIssueTokensSuccess(true)
     }
