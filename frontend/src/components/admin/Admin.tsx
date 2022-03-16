@@ -2,6 +2,7 @@ import {Box} from "@material-ui/core"
 import {makeStyles} from "@material-ui/core"
 import {Button, Input, CircularProgress, Snackbar} from "@material-ui/core"
 import Alert from "@material-ui/lab/Alert"
+import {useIssueTokens} from "../../hooks/useIssueTokens"
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -22,9 +23,14 @@ export const Admin = () => {
 
   const classes = useStyles()
 
-  const isMining = false
+  const {issueTokens, state: issueTokensState} = useIssueTokens()
 
-  const handleIssueTokensSubmit = () => {}
+  const isMining = issueTokensState.status === "Mining"
+
+  const handleIssueTokensSubmit = () => {
+    console.log("Issue tokens")
+    return issueTokens()
+  }
 
   return (
     <Box>
