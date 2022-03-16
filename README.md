@@ -1,6 +1,6 @@
 # Brownie DeFi Stake/Yield Demo
 
-This is my version of the "full stack" (i.e. front-end and back-end) DeFi stake/yield project from lesson 13 of this [course] course at [freeCodeCamp].
+This is my version of the "full stack" (i.e. front-end and back-end) DeFi stake/yield project from lesson 13 of this [course] at [freeCodeCamp].
 
 My code and tests are a little different from those in the course, but the overall results should be the same.
 
@@ -12,9 +12,7 @@ A version of the frontend app, using the Ethereum Rinkeby test network, is deplo
 
 The frontend is set up to automatically deploy via GitHub Pages, using a GitHub Action defined [here][github action file]
 
-If you want to use the same process for your own fork you will need to change `digitalronin` to your GitHub username in the URL above, and in the `homepage` entry in `frontend/package.json`
-
-If you are deploying to the root of your own domain, you must remove the `homepage` entry.
+If you want to use the same process for your own fork you will need to change `digitalronin` to your GitHub username in the URL above.
 
 ## Pre-requisites
 
