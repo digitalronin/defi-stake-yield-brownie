@@ -10,6 +10,7 @@ import daiImage from "../dai.png"
 import ethImage from "../eth.png"
 import {YourWallet} from "./yourWallet"
 import {TokenFarm} from "./tokenFarm"
+import {Admin} from "./admin"
 import {makeStyles} from "@material-ui/core"
 import {useIsAdmin} from "../hooks/useIsAdmin"
 
@@ -82,14 +83,14 @@ export const Main = () => {
     }
   ]
 
-  const isAdmin = useIsAdmin()
-  console.log("isAdmin", isAdmin)
+  const adminComponent = useIsAdmin() ? <Admin /> : ""
 
   return (
     <div>
       <h2 className={classes.title}>Dapp Token App</h2>
       <YourWallet supportedTokens={supportedTokens} />
       <TokenFarm supportedTokens={supportedTokens} />
+      {adminComponent}
     </div>
   )
 }
