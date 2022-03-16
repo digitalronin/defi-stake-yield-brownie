@@ -67,6 +67,7 @@ brownie run scripts/deploy.py --network rinkeby
 - Add "unsupported chain" notification
 - Replace hardcoded strings with constants (e.g. tx names)
 - Don't get token balances for all tabs - just for the selected tab
-- Add an admin page with a button to call `issueTokens` to distribute staking rewards
 - Properly fix the bug where 1000+ staking transactions were created after approve TX succeeds (I have a workaround in place, but it would be better to understand and correct the real problem)
 - Create a mobile-friendly version (offer WalletConnect as an option?)
+- Disconnect if the user switches accounts in their wallet (currently, the "DISCONNECT" button is still shown, but I don't think the connection is working properly)
+- Admin: show remaining DAPP token balance of TokenFarm contract
