@@ -11,6 +11,7 @@ import ethImage from "../eth.png"
 import {YourWallet} from "./yourWallet"
 import {TokenFarm} from "./tokenFarm"
 import {makeStyles} from "@material-ui/core"
+import {useIsAdmin} from "../hooks/useIsAdmin"
 
 export type Token = {
   image: string,
@@ -80,6 +81,9 @@ export const Main = () => {
       name: "FAU"
     }
   ]
+
+  const isAdmin = useIsAdmin()
+  console.log("isAdmin", isAdmin)
 
   return (
     <div>
